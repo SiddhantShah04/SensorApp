@@ -1,7 +1,12 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, Linking } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Linking,
+  AsyncStorage,
+} from "react-native";
 import { Block, Text, theme } from "galio-framework";
-
+import firebase from "firebase";
 import Icon from "./Icon";
 import argonTheme from "../constants/Theme";
 
@@ -55,13 +60,15 @@ class DrawerItem extends React.Component {
             color={focused ? "white" : argonTheme.COLORS.INFO}
           />
         );
-      case "Getting Started":
-        return (<Icon
-          name="spaceship"
-          family="ArgonExtra"
-          size={14}
-          color={focused ? "white" : "rgba(0,0,0,0.5)"}
-        />);
+      case "Logout":
+        return (
+          <Icon
+            name="spaceship"
+            family="ArgonExtra"
+            size={14}
+            color={focused ? "white" : "rgba(0,0,0,0.5)"}
+          />
+        );
       case "Log out":
         return <Icon />;
       default:
@@ -74,18 +81,39 @@ class DrawerItem extends React.Component {
 
     const containerStyles = [
       styles.defaultStyle,
-      focused ? [styles.activeStyle, styles.shadow] : null
+      focused ? [styles.activeStyle, styles.shadow] : null,
     ];
+
+    const logoutFirebase = () => {
+      var config = {
+        apiKey: "AIzaSyB56qTTXlCsZ2DCM9qDiGGLh_RM6jNdEHk",
+        authDomain: "sensor-14b30-default-rtdb.firebaseio.com",
+        databaseURL: "https://sensor-14b30-default-rtdb.firebaseio.com/",
+        projectId: "sensor-14b30",
+      };
+
+      if (!firebase.apps.length) {
+        firebase.initializeApp(config);
+      }
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          // Sign-out successful.
+          AsyncStorage.removeItem("loginData");
+          navigation.navigate("Onboarding");
+        })
+        .catch((error) => {
+          // An error happened.
+          alert(error.message);
+        });
+    };
 
     return (
       <TouchableOpacity
         style={{ height: 60 }}
         onPress={() =>
-          title == "Getting Started"
-            ? Linking.openURL(
-                "https://demos.creative-tim.com/argon-pro-react-native/docs/"
-              ).catch(err => console.error("An error occurred", err))
-            : navigation.navigate(title)
+          title == "Logout" ? logoutFirebase() : navigation.navigate(title)
         }
       >
         <Block flex row style={containerStyles}>
@@ -110,21 +138,21 @@ class DrawerItem extends React.Component {
 const styles = StyleSheet.create({
   defaultStyle: {
     paddingVertical: 16,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
   },
   activeStyle: {
     backgroundColor: argonTheme.COLORS.ACTIVE,
-    borderRadius: 4
+    borderRadius: 4,
   },
   shadow: {
     shadowColor: theme.COLORS.BLACK,
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowRadius: 8,
-    shadowOpacity: 0.1
-  }
+    shadowOpacity: 0.1,
+  },
 });
 
 export default DrawerItem;
