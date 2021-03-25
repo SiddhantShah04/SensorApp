@@ -19,7 +19,7 @@ const { width, height } = Dimensions.get("screen");
 var config = {
   apiKey: "AIzaSyB56qTTXlCsZ2DCM9qDiGGLh_RM6jNdEHk",
   authDomain: "sensor-14b30-default-rtdb.firebaseio.com",
-  databaseURL: "https://sensor-14b30-default-rtdb.firebaseio.com/",
+  databaseURL: "sensor-14b30-default-rtdb.firebaseio.com",
   projectId: "sensor-14b30",
 };
 
@@ -75,27 +75,28 @@ const Login = ({ navigation }) => {
     console.log(">>>>>>>>>>>>", provider);
     firebase
       .auth()
-      .signInWithPopup(provider)
+      .getRedirectResult()
       .then((result) => {
-        /** @type {firebase.auth.OAuthCredential} */
-        var credential = result.credential;
+        if (result.credential) {
+          /** @type {firebase.auth.OAuthCredential} */
+          var credential = result.credential;
 
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        var token = credential.accessToken;
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          var token = credential.accessToken;
+          // ...
+        }
         // The signed-in user info.
         var user = result.user;
-        loginLocalStorage(user);
-        // ...
       })
       .catch((error) => {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        alert(error.message);
         // The email of the user's account used.
         var email = error.email;
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
+        console.log(error);
         // ...
       });
   };
