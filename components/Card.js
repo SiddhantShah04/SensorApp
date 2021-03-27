@@ -25,6 +25,10 @@ const Card = (props) => {
   // }
   const screenWidth = Dimensions.get("window").width;
 
+  var config = {
+    databaseURL: "https://sensor-14b30-default-rtdb.firebaseio.com/",
+    projectId: "sensor-14b30",
+  };
   const [plotData, setPlotData] = useState([]);
 
   const chartConfig = {
@@ -39,6 +43,9 @@ const Card = (props) => {
   };
 
   const [graphData, setGraphData] = useState([0]);
+  const [ir,setIr] = useState(0)
+  const [bpm,setBpm] = useState(0)
+  const [avgBpm,setAvgBpm] = useState(0)
 
   const intialGraphValue = {
     labels: ["January", "February", "March", "April", "May", "June"],
@@ -53,10 +60,6 @@ const Card = (props) => {
   };
 
   const getData = async () => {
-    var config = {
-      databaseURL: "https://sensor-14b30-default-rtdb.firebaseio.com/",
-      projectId: "sensor-14b30",
-    };
 
     if (!firebase.apps.length) {
       firebase.initializeApp(config);
@@ -67,17 +70,28 @@ const Card = (props) => {
       .database()
       .ref("IR Value/")
       .on("value", (snapshot) => {
-        setGraphData([...graphData, snapshot.val()]);
-        console.log("IR Value: ", snapshot.val());
+        setIr(snapshot.val());
       });
 
+      firebase
+      .database()
+      .ref("BPM/")
+      .on("value", (snapshot) => {
+        setBpm(snapshot.val());
+      });
+      firebase
+      .database()
+      .ref("Avg BPM/")
+      .on("value", (snapshot) => {
+        setAvgBpm(snapshot.val());
+      });
     // firebase.database().ref('IR Value/').once('value', function (snapshot) {
     //            console.log(snapshot.val())
     //    })
   };
 
   useEffect(() => {
-    //getData();
+    getData();
   });
 
   // const { navigation, item, horizontal, full, style, ctaColor, imageStyle } = this.props;
@@ -86,7 +100,7 @@ const Card = (props) => {
     <Block>
       <Block flex space="between" style={styles.cardDescription}>
         <Text size={14} style={styles.cardTitle}>
-          Siddhant
+          
         </Text>
         {/* 
             <Text>Add Data</Text> */}
@@ -104,11 +118,14 @@ const Card = (props) => {
       </TouchableWithoutFeedback> */}
       <TouchableWithoutFeedback>
         <Block flex space="between" style={styles.cardDescription}>
-          <Text size={14} style={styles.cardTitle}>
-            Name
+          <Text size={24} style={styles.cardTitle}>
+            IR value : <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>{ir}</Text>
           </Text>
-          <Text size={12} color={argonTheme.COLORS.ACTIVE} bold>
-            Value
+          <Text size={24} style={styles.cardTitle}>
+            BPM : <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>{bpm}</Text>
+          </Text>
+          <Text size={24} style={styles.cardTitle}>
+            Average BPM : <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>{avgBpm}</Text>
           </Text>
         </Block>
       </TouchableWithoutFeedback>
