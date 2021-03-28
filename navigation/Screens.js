@@ -14,7 +14,7 @@ import Pro from "../screens/Pro";
 import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Elements from "../screens/Elements";
-import Articles from "../screens/Articles";
+import History from "../screens/Histroy";
 import Login from "../screens/login";
 // drawer
 import CustomDrawerContent from "./Menu";
@@ -59,40 +59,6 @@ function ElementsStack(props) {
           headerTransparent: true
         }}
       /> */}
-    </Stack.Navigator>
-  );
-}
-
-function ArticlesStack(props) {
-  return (
-    <Stack.Navigator mode="card" headerMode="screen">
-      <Stack.Screen
-        name="Articles"
-        component={Articles}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header title="Articles" navigation={navigation} scene={scene} />
-          ),
-          cardStyle: { backgroundColor: "#F8F9FE" },
-        }}
-      />
-      <Stack.Screen
-        name="Pro"
-        component={Pro}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              title=""
-              back
-              white
-              transparent
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
-          headerTransparent: true,
-        }}
-      />
     </Stack.Navigator>
   );
 }
@@ -183,6 +149,7 @@ export default function OnboardingStack(props) {
       <Drawer.Screen name="Register" component={Register} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="App" component={AppStack} />
+      <Stack.Screen name="history" component={History} />
     </Stack.Navigator>
   );
 }
@@ -222,7 +189,6 @@ function AppStack(props) {
       {/* <Drawer.Screen name="Profile" component={ProfileStack} /> */}
 
       <Drawer.Screen name="Elements" component={ElementsStack} />
-      <Drawer.Screen name="Articles" component={ArticlesStack} />
     </Drawer.Navigator>
   );
 }

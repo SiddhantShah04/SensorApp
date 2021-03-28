@@ -30,6 +30,7 @@
     "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
+    "react-native-cardview": "^2.0.5",
     "react-native-chart-kit": "^6.11.0",
     "react-native-chartjs": "^1.0.3",
     "react-native-gesture-handler": "~1.8.0",

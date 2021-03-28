@@ -6,17 +6,19 @@ import {
   Dimensions,
   Image,
   TouchableWithoutFeedback,
+  AsyncStorage,
 } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 
 import { argonTheme } from "../constants";
 import { useEffect } from "react";
 import { useState } from "react";
-import firebase from "firebase";
+import * as firebase from "firebase";
+import "firebase/firestore";
 
-import { LineChart } from "react-native-chart-kit";
+import { Button } from "galio-framework";
 
-const Card = (props) => {
+const Card = ({ navigation }) => {
   const [data, setData] = useState([]);
   //   readUserData() {
   //     firebase.database().ref('Users/').once('value', function (snapshot) {
@@ -29,57 +31,63 @@ const Card = (props) => {
     databaseURL: "https://sensor-14b30-default-rtdb.firebaseio.com/",
     projectId: "sensor-14b30",
   };
-  const [plotData, setPlotData] = useState([]);
 
-  const chartConfig = {
-    backgroundGradientFrom: "#1E2923",
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#08130D",
-    backgroundGradientToOpacity: 0.5,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    strokeWidth: 2, // optional, default 3
-    barPercentage: 0.5,
-    useShadowColorFromDataset: false, // optional
-  };
+  if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+  }
 
   const [graphData, setGraphData] = useState([0]);
-  const [ir,setIr] = useState(0)
-  const [bpm,setBpm] = useState(0)
-  const [avgBpm,setAvgBpm] = useState(0)
+  const [spo2, setSpo2] = useState(0);
+  const [heartRate, setHeartRate] = useState(0);
+  const [avgBpm, setAvgBpm] = useState(0);
 
-  const intialGraphValue = {
-    labels: ["January", "February", "March", "April", "May", "June"],
-    datasets: [
-      {
-        data: graphData,
-        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-        strokeWidth: 2, // optional
-      },
-    ],
-    legend: ["Rainy Days"], // optional
+  const saveUserData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("loginData");
+      console.log(value);
+      const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+
+      const entityRef = firebase.firestore().collection("userData");
+      const data = {
+        email: value,
+        spo2: spo2,
+        heartRate: heartRate,
+        createdAt: timestamp,
+      };
+      entityRef
+        .add(data)
+
+        .catch((error) => {
+          alert(error);
+        });
+    } catch (error) {
+      // Error retrieving data
+      alert(error);
+      console.log(error);
+    }
+  };
+
+  const getUserHistroy = () => {
+    navigation.navigate("history");
   };
 
   const getData = async () => {
-
-    if (!firebase.apps.length) {
-      firebase.initializeApp(config);
-    }
     //firebase.initializeApp(config);
 
     firebase
       .database()
-      .ref("IR Value/")
+      .ref("spo2/")
       .on("value", (snapshot) => {
-        setIr(snapshot.val());
+        setSpo2(snapshot.val());
       });
 
-      firebase
+    firebase
       .database()
-      .ref("BPM/")
+      .ref("heartRate/")
       .on("value", (snapshot) => {
-        setBpm(snapshot.val());
+        setHeartRate(snapshot.val());
       });
-      firebase
+    firebase
       .database()
       .ref("Avg BPM/")
       .on("value", (snapshot) => {
@@ -99,9 +107,7 @@ const Card = (props) => {
   return (
     <Block>
       <Block flex space="between" style={styles.cardDescription}>
-        <Text size={14} style={styles.cardTitle}>
-          
-        </Text>
+        <Text size={14} style={styles.cardTitle}></Text>
         {/* 
             <Text>Add Data</Text> */}
         {/* <LineChart
@@ -119,16 +125,37 @@ const Card = (props) => {
       <TouchableWithoutFeedback>
         <Block flex space="between" style={styles.cardDescription}>
           <Text size={24} style={styles.cardTitle}>
-            IR value : <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>{ir}</Text>
+            SPO2 :{" "}
+            <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
+              {spo2}
+            </Text>
           </Text>
           <Text size={24} style={styles.cardTitle}>
-            BPM : <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>{bpm}</Text>
+            Heart Rate :{" "}
+            <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
+              {heartRate}
+            </Text>
           </Text>
-          <Text size={24} style={styles.cardTitle}>
-            Average BPM : <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>{avgBpm}</Text>
+          <Text size={20} style={styles.cardTitle}>
+            Tempreature :{" "}
+            <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
+              38°C
+            </Text>
           </Text>
+          {/* <Text size={24} style={styles.cardTitle}>
+            Average BPM :{" "}
+            <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
+              {avgBpm}
+            </Text>
+          </Text> */}
         </Block>
       </TouchableWithoutFeedback>
+      <Block row>
+        <Button color={argonTheme.COLORS.SUCCESS} onPress={saveUserData}>
+          Save
+        </Button>
+        <Button onPress={getUserHistroy}>History</Button>
+      </Block>
     </Block>
   );
 };
