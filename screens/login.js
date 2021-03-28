@@ -72,7 +72,7 @@ const Login = ({ navigation }) => {
     } else {
       provider = new firebase.auth.GithubAuthProvider();
     }
-    console.log(">>>>>>>>>>>>", provider);
+
     firebase
       .auth()
       .getRedirectResult()

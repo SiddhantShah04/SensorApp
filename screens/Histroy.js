@@ -34,8 +34,9 @@ const History = ({ navigation }) => {
   const [entities, setEntities] = useState([]);
 
   const getData = async () => {
+    setLoading(true);
     const entityRef = firebase.firestore().collection("userData");
-    console.log(">>>>>>>>>>");
+
     const email = await AsyncStorage.getItem("loginData");
     entityRef
       .where("email", "==", email)
@@ -55,6 +56,7 @@ const History = ({ navigation }) => {
           alert(error);
         }
       );
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -82,67 +84,90 @@ const History = ({ navigation }) => {
               >
                 Patient previous reocords
               </Text>
-              <ScrollView>
-                {/* <Block flex space="between" style={styles.cardDescription}>
+
+              {loading ? (
+                <View style={[styles.container, styles.horizontal]}>
+                  <ActivityIndicator size={100} color="#00ff00" />
+                </View>
+              ) : (
+                <ScrollView>
+                  {/* <Block flex space="between" style={styles.cardDescription}>
                   {entities.map((elt) => (
                     <Text>{elt.email}</Text>
                   ))}
                 </Block> */}
 
-                <TouchableWithoutFeedback>
-                  <Block flex space="between" style={styles.cardDescription}>
-                    {entities.map((elt) => (
-                      <Block
-                        style={{
-                          borderWidth: 1,
-                          borderRadius: 2,
-                          padding: 4,
-                          marginBottom: 8,
-                          borderColor: "#5e60ce",
-                        }}
-                      >
-                        <Text size={20} style={styles.cardTitle}>
-                          Date:{" "}
-                          <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
-                            {new Date(
-                              elt.createdAt.seconds * 1000
-                            ).toLocaleDateString("en-AU") +
-                              " at " +
-                              new Date(
+                  <TouchableWithoutFeedback>
+                    <Block flex space="between" style={styles.cardDescription}>
+                      {entities.map((elt) => (
+                        <Block
+                          style={{
+                            borderWidth: 1,
+                            borderRadius: 2,
+                            padding: 4,
+                            marginBottom: 8,
+                            borderColor: "#5e60ce",
+                          }}
+                        >
+                          <Text size={20} style={styles.cardTitle}>
+                            Date:{" "}
+                            <Text
+                              size={20}
+                              color={argonTheme.COLORS.ACTIVE}
+                              bold
+                            >
+                              {new Date(
                                 elt.createdAt.seconds * 1000
-                              ).toLocaleTimeString()}
+                              ).toLocaleDateString("en-AU") +
+                                " at " +
+                                new Date(
+                                  elt.createdAt.seconds * 1000
+                                ).toLocaleTimeString()}
+                            </Text>
                           </Text>
-                        </Text>
-                        <Text size={20} style={styles.cardTitle}>
-                          SPO2 :{" "}
-                          <Text size={18} color={argonTheme.COLORS.ACTIVE} bold>
-                            {elt.spo2}
+                          <Text size={20} style={styles.cardTitle}>
+                            SPO2 :{" "}
+                            <Text
+                              size={18}
+                              color={argonTheme.COLORS.ACTIVE}
+                              bold
+                            >
+                              {elt.spo2}
+                            </Text>
                           </Text>
-                        </Text>
-                        <Text size={20} style={styles.cardTitle}>
-                          Heart Rate :{" "}
-                          <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
-                            {elt.heartRate}
+                          <Text size={20} style={styles.cardTitle}>
+                            Heart Rate :{" "}
+                            <Text
+                              size={20}
+                              color={argonTheme.COLORS.ACTIVE}
+                              bold
+                            >
+                              {elt.heartRate}
+                            </Text>
                           </Text>
-                        </Text>
-                        <Text size={20} style={styles.cardTitle}>
-                          Tempreature :{" "}
-                          <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
-                            38°C
+                          <Text size={20} style={styles.cardTitle}>
+                            Temperature :{" "}
+                            <Text
+                              size={20}
+                              color={argonTheme.COLORS.ACTIVE}
+                              bold
+                            >
+                              {elt.temperature}
+                            </Text>
                           </Text>
-                        </Text>
-                      </Block>
-                    ))}
+                        </Block>
+                      ))}
 
-                    {/* <Text size={24} style={styles.cardTitle}>
+                      {/* <Text size={24} style={styles.cardTitle}>
             Average BPM :{" "}
             <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
               {avgBpm}
             </Text>
           </Text> */}
-                  </Block>
-                </TouchableWithoutFeedback>
-              </ScrollView>
+                    </Block>
+                  </TouchableWithoutFeedback>
+                </ScrollView>
+              )}
             </Block>
           </Block>
         )}

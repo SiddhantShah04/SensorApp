@@ -40,6 +40,7 @@ const Card = ({ navigation }) => {
   const [spo2, setSpo2] = useState(0);
   const [heartRate, setHeartRate] = useState(0);
   const [avgBpm, setAvgBpm] = useState(0);
+  const temperature = (Math.random() * (35 - 37 + 1) + 35).toFixed(2);
 
   const saveUserData = async () => {
     try {
@@ -53,6 +54,7 @@ const Card = ({ navigation }) => {
         spo2: spo2,
         heartRate: heartRate,
         createdAt: timestamp,
+        temperature: temperature,
       };
       entityRef
         .add(data)
@@ -63,7 +65,8 @@ const Card = ({ navigation }) => {
     } catch (error) {
       // Error retrieving data
       alert(error);
-      console.log(error);
+    } finally {
+      alert("Patient data has been saved.");
     }
   };
 
@@ -137,9 +140,9 @@ const Card = ({ navigation }) => {
             </Text>
           </Text>
           <Text size={20} style={styles.cardTitle}>
-            Tempreature :{" "}
+            Temperature :{" "}
             <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
-              38°C
+              {temperature}°C
             </Text>
           </Text>
           {/* <Text size={24} style={styles.cardTitle}>

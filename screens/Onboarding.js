@@ -41,24 +41,25 @@ class Onboarding extends React.Component {
           />
         </Block>
         <Block center>
-          <Image source={Images.LogoOnboarding} style={styles.logo} />
+          {/* <Image source={Images.LogoOnboarding} style={styles.logo} /> */}
         </Block>
         <Block flex space="between" style={styles.padded}>
           <Block flex space="around" style={{ zIndex: 2 }}>
             <Block style={styles.title}>
               <Block>
                 <Text color="white" size={60}>
-                  App
+                  Baymax
                 </Text>
               </Block>
-              <Block>
+              {/* <Block>
                 <Text color="white" size={60}>
                   title
                 </Text>
-              </Block>
+              </Block> */}
               <Block style={styles.subTitle}>
                 <Text color="white" size={16}>
-                  Add a little app description
+                  App provides tools to help you concentrate more on what's more
+                  important i.e patient care.
                 </Text>
               </Block>
             </Block>
