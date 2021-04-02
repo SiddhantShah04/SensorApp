@@ -1,7 +1,7 @@
 import React from "react";
 import { useSafeArea } from "react-native-safe-area-context";
-import { ScrollView, StyleSheet, Image } from "react-native";
-import { Block, Text, theme } from "galio-framework";
+import { ScrollView, StyleSheet, Image, Text } from "react-native";
+import { Block, theme } from "galio-framework";
 
 import Images from "../constants/Images";
 import { DrawerItem as DrawerCustomItem } from "../components";
@@ -24,7 +24,15 @@ function CustomDrawerContent({
       forceInset={{ top: "always", horizontal: "never" }}
     >
       <Block flex={0.06} style={styles.header}>
-        <Image styles={styles.logo} source={Images.Logo} />
+        <Text
+          style={{
+            fontFamily: "Orbitron_800ExtraBold",
+            color: "#ffff",
+            fontSize: 44,
+          }}
+        >
+          baymax
+        </Text>
       </Block>
       <Block flex style={{ paddingLeft: 8, paddingRight: 14 }}>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
@@ -66,9 +74,11 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 28,
-    paddingBottom: theme.SIZES.BASE,
+    paddingBottom: theme.SIZES.BASE * 2,
     paddingTop: theme.SIZES.BASE * 3,
     justifyContent: "center",
+    backgroundColor: "#d2767b",
+    marginBottom: 34,
   },
 });
 

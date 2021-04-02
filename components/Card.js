@@ -17,7 +17,7 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 
 import { Button } from "galio-framework";
-
+const { width, height } = Dimensions.get("screen");
 const Card = ({ navigation }) => {
   const [data, setData] = useState([]);
   //   readUserData() {
@@ -108,43 +108,54 @@ const Card = ({ navigation }) => {
   // const { navigation, item, horizontal, full, style, ctaColor, imageStyle } = this.props;
 
   return (
-    <Block>
-      <Block flex space="between" style={styles.cardDescription}>
-        <Text size={14} style={styles.cardTitle}></Text>
-        {/* 
-            <Text>Add Data</Text> */}
-        {/* <LineChart
-              data={intialGraphValue}
-              width={screenWidth}
-              height={220}
-              chartConfig={chartConfig}
-            /> */}
+    <Block middle>
+      <Block>
+        <Block middle style={styles.socialConnect}>
+          <Text
+            style={{
+              fontFamily: "Orbitron_800ExtraBold",
+              color: "#ffffff",
+              fontSize: 44,
+            }}
+          >
+            baymax
+          </Text>
+        </Block>
       </Block>
       {/* <TouchableWithoutFeedback >
         <Block flex style={imgContainer}>
           <Image source={{ uri: item.image }} style={imageStyles} />
         </Block>
       </TouchableWithoutFeedback> */}
+
       <TouchableWithoutFeedback>
         <Block flex space="between" style={styles.cardDescription}>
           <Text size={24} style={styles.cardTitle}>
-            SPO2 :{" "}
-            <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
-              {spo2}
+            SpO2 SATURATION :{" "}
+            <Text size={20} style={styles.cardTitle} bold>
+              {spo2}%
             </Text>
           </Text>
           <Text size={24} style={styles.cardTitle}>
-            Heart Rate :{" "}
-            <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
-              {heartRate}
+            HEART RATE :{" "}
+            <Text size={20} style={styles.cardTitle} bold>
+              {heartRate} BPM
             </Text>
           </Text>
-          <Text size={20} style={styles.cardTitle}>
-            Temperature :{" "}
-            <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
+          <Text size={24} style={styles.cardTitle}>
+            TEMPREATURE :{" "}
+            <Text size={20} style={styles.cardTitle} bold>
               {temperature}°C
             </Text>
           </Text>
+          <Block row>
+            <Button onPress={saveUserData} style={styles.createButton}>
+              Save
+            </Button>
+            <Button onPress={getUserHistroy} style={styles.createButton}>
+              History
+            </Button>
+          </Block>
           {/* <Text size={24} style={styles.cardTitle}>
             Average BPM :{" "}
             <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
@@ -153,12 +164,6 @@ const Card = ({ navigation }) => {
           </Text> */}
         </Block>
       </TouchableWithoutFeedback>
-      <Block row>
-        <Button color={argonTheme.COLORS.SUCCESS} onPress={saveUserData}>
-          Save
-        </Button>
-        <Button onPress={getUserHistroy}>History</Button>
-      </Block>
     </Block>
   );
 };
@@ -172,50 +177,21 @@ Card.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: theme.COLORS.WHITE,
-    marginVertical: theme.SIZES.BASE,
-    borderWidth: 0,
-    minHeight: 114,
-    marginBottom: 16,
+  socialConnect: {
+    borderColor: "#8898AA",
+    backgroundColor: "#d2767b",
+    width: width,
+    height: height * 0.11,
+  },
+  createButton: {
+    width: width * 0.47,
+
+    color: "#d2767b",
   },
   cardTitle: {
-    flex: 1,
-    flexWrap: "wrap",
-    paddingBottom: 6,
-  },
-  cardDescription: {
-    padding: theme.SIZES.BASE / 2,
-  },
-  imageContainer: {
-    borderRadius: 3,
-    elevation: 1,
-    overflow: "hidden",
-  },
-  image: {
-    // borderRadius: 3,
-  },
-  horizontalImage: {
-    height: 122,
-    width: "auto",
-  },
-  horizontalStyles: {
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
-  },
-  verticalStyles: {
-    borderBottomRightRadius: 0,
-    borderBottomLeftRadius: 0,
-  },
-  fullImage: {
-    height: 215,
-  },
-  shadow: {
-    shadowColor: theme.COLORS.BLACK,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    shadowOpacity: 0.1,
-    elevation: 2,
+    margin: 10,
+    textAlign: "center",
+    color: "#d2767b",
   },
 });
 

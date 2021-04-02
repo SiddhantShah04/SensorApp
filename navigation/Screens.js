@@ -139,15 +139,9 @@ function HomeStack(props) {
 export default function OnboardingStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="none">
-      <Stack.Screen
-        name="Onboarding"
-        component={Onboarding}
-        option={{
-          headerTransparent: true,
-        }}
-      />
-      <Drawer.Screen name="Register" component={Register} />
       <Stack.Screen name="Login" component={Login} />
+      <Drawer.Screen name="Register" component={Register} />
+
       <Stack.Screen name="App" component={AppStack} />
       <Stack.Screen name="history" component={History} />
     </Stack.Navigator>

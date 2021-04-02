@@ -35,10 +35,10 @@ class Onboarding extends React.Component {
       <Block flex style={styles.container}>
         <StatusBar hidden />
         <Block flex center>
-          <ImageBackground
+          {/* <ImageBackground
             source={Images.Onboarding}
             style={{ height, width, zIndex: 1 }}
-          />
+          /> */}
         </Block>
         <Block center>
           {/* <Image source={Images.LogoOnboarding} style={styles.logo} /> */}
@@ -81,9 +81,6 @@ class Onboarding extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: theme.COLORS.BLACK,
-  },
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,
     position: "relative",
