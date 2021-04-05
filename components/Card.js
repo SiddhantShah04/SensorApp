@@ -9,8 +9,7 @@ import {
   AsyncStorage,
 } from "react-native";
 import { Block, Text, theme } from "galio-framework";
-
-import { argonTheme } from "../constants";
+import { Images } from "../constants";
 import { useEffect } from "react";
 import { useState } from "react";
 import * as firebase from "firebase";
@@ -36,7 +35,6 @@ const Card = ({ navigation }) => {
     firebase.initializeApp(config);
   }
 
-  const [graphData, setGraphData] = useState([0]);
   const [spo2, setSpo2] = useState(0);
   const [heartRate, setHeartRate] = useState(0);
   const [avgBpm, setAvgBpm] = useState(0);
@@ -108,7 +106,7 @@ const Card = ({ navigation }) => {
   // const { navigation, item, horizontal, full, style, ctaColor, imageStyle } = this.props;
 
   return (
-    <Block middle>
+    <Block middle flex={1} style={{ backgroundColor: "#ffffff" }}>
       <Block>
         <Block middle style={styles.socialConnect}>
           <Text
@@ -122,48 +120,78 @@ const Card = ({ navigation }) => {
           </Text>
         </Block>
       </Block>
-      {/* <TouchableWithoutFeedback >
-        <Block flex style={imgContainer}>
-          <Image source={{ uri: item.image }} style={imageStyles} />
-        </Block>
-      </TouchableWithoutFeedback> */}
+
+      <Block row>
+        <Button
+          style={
+            (styles.fullwidthButton,
+            {
+              ...styles.fullwidthButton,
+              backgroundColor: "#d2767b",
+            })
+          }
+        >
+          <Text size={23} bold style={styles.buttonText}>
+            MEASURE
+          </Text>
+        </Button>
+        <Button
+          style={
+            (styles.fullwidthButton,
+            {
+              ...styles.fullwidthButton,
+              backgroundColor: "#e9bcbf",
+            })
+          }
+        >
+          <Text
+            onPress={getUserHistroy}
+            size={23}
+            bold
+            style={styles.buttonText}
+          >
+            HISTORY
+          </Text>
+        </Button>
+      </Block>
 
       <TouchableWithoutFeedback>
-        <Block flex space="between" style={styles.cardDescription}>
-          <Text size={24} style={styles.cardTitle}>
+        <Block flex={2} style={styles.cardDescription}>
+          <Text bold size={24} style={styles.cardTitle}>
             SpO2 SATURATION :{" "}
-            <Text size={20} style={styles.cardTitle} bold>
+            <Text bold size={20} style={styles.cardTitle} bold>
               {spo2}%
             </Text>
           </Text>
-          <Text size={24} style={styles.cardTitle}>
+          <Text bold size={24} style={styles.cardTitle}>
             HEART RATE :{" "}
             <Text size={20} style={styles.cardTitle} bold>
               {heartRate} BPM
             </Text>
           </Text>
-          <Text size={24} style={styles.cardTitle}>
-            TEMPREATURE :{" "}
+          <Text bold size={24} style={styles.cardTitle}>
+            TEMPERATURE :{" "}
             <Text size={20} style={styles.cardTitle} bold>
               {temperature}°C
             </Text>
           </Text>
-          <Block row>
+          <Block row center>
             <Button onPress={saveUserData} style={styles.createButton}>
-              Save
+              <Text bold style={styles.buttonText}>
+                SAVE
+              </Text>
             </Button>
-            <Button onPress={getUserHistroy} style={styles.createButton}>
-              History
+            <Button style={styles.createButton}>
+              <Text bold style={styles.buttonText}>
+                DISCARD
+              </Text>
             </Button>
           </Block>
-          {/* <Text size={24} style={styles.cardTitle}>
-            Average BPM :{" "}
-            <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
-              {avgBpm}
-            </Text>
-          </Text> */}
         </Block>
       </TouchableWithoutFeedback>
+      <Block flex={1} style={{ justifyContent: "flex-end", marginBottom: 4 }}>
+        <Image source={Images.LogoOnboarding} style={styles.logo} />
+      </Block>
     </Block>
   );
 };
@@ -184,14 +212,34 @@ const styles = StyleSheet.create({
     height: height * 0.11,
   },
   createButton: {
-    width: width * 0.47,
+    width: width * 0.3,
+    backgroundColor: "white",
+  },
+  cardDescription: {
+    marginBottom: height * 0.1,
+  },
 
+  buttonText: {
+    color: "#ffc8c8",
+  },
+  fullwidthButton: {
+    top: -6,
+    width: width * 0.49,
+    height: height * 0.062,
+    borderRadius: 1,
     color: "#d2767b",
+    marginLeft: 1,
+    marginRight: 1,
   },
   cardTitle: {
     margin: 10,
     textAlign: "center",
-    color: "#d2767b",
+    color: "#c7adae",
+  },
+  logo: {
+    height: height * 0.34,
+
+    position: "relative",
   },
 });
 

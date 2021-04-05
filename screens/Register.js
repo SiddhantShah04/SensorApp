@@ -67,12 +67,12 @@ const Register = ({ navigation }) => {
       > */}
       {loading ? (
         <View style={[styles.container, styles.horizontal]}>
-          <ActivityIndicator size={100} color="#00ff00" />
+          <ActivityIndicator size={100} color="#d2767b" />
         </View>
       ) : (
-        <Block flex={0.2} middle>
+        <Block flex={1} middle>
           <Block style={styles.registerContainer}>
-            <Block flex>
+            <Block>
               <Block middle style={styles.socialConnect}>
                 <Text
                   style={{
@@ -87,7 +87,7 @@ const Register = ({ navigation }) => {
               </Block>
               <Block center>
                 <KeyboardAvoidingView
-                  style={{ flex: 1, marginTop: 8 }}
+                  style={{ marginTop: 2 }}
                   behavior="padding"
                   enabled
                 >
@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
   registerContainer: {
     width: width,
     height: height,
+    position: "relative",
     backgroundColor: "#ffffff",
     borderRadius: 4,
     shadowColor: argonTheme.COLORS.BLACK,
@@ -153,27 +154,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: "#8898AA",
     backgroundColor: "#d2767b",
-    height: 110,
+    height: height * 0.16,
   },
   logo: {
-    height: 420,
-    zIndex: 2,
-    position: "relative",
-    marginTop: "-110%",
+    position: "absolute",
+    height: height * 0.4,
+    bottom: 0,
   },
-  // socialButtons: {
-  //   width: 120,
-  //   height: 40,
-  //   backgroundColor: "#fff",
-  //   shadowColor: argonTheme.COLORS.BLACK,
-  //   shadowOffset: {
-  //     width: 0,
-  //     height: 4,
-  //   },
-  //   shadowRadius: 8,
-  //   shadowOpacity: 0.1,
-  //   elevation: 1,
-  // },
+
   socialTextButtons: {
     color: argonTheme.COLORS.PRIMARY,
     fontWeight: "800",

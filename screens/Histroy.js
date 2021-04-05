@@ -35,27 +35,27 @@ const History = ({ navigation }) => {
 
   const getData = async () => {
     setLoading(true);
-    const entityRef = firebase.firestore().collection("userData");
+    const entityRef = firebase
+      .firestore()
+      .collection("userData")
+      .orderBy("createdAt", "desc");
 
     const email = await AsyncStorage.getItem("loginData");
-    entityRef
-      .where("email", "==", email)
+    entityRef.where("email", "==", email).onSnapshot(
+      (querySnapshot) => {
+        const newEntities = [];
+        querySnapshot.forEach((doc) => {
+          const entity = doc.data();
 
-      .onSnapshot(
-        (querySnapshot) => {
-          const newEntities = [];
-          querySnapshot.forEach((doc) => {
-            const entity = doc.data();
-
-            entity.id = doc.id;
-            newEntities.push(entity);
-          });
-          setEntities(newEntities);
-        },
-        (error) => {
-          alert(error);
-        }
-      );
+          entity.id = doc.id;
+          newEntities.push(entity);
+        });
+        setEntities(newEntities);
+      },
+      (error) => {
+        alert(error);
+      }
+    );
     setLoading(false);
   };
 
@@ -65,38 +65,28 @@ const History = ({ navigation }) => {
 
   return (
     <Block flex middle>
-      <ImageBackground
-        source={Images.RegisterBackground}
-        style={{ width, height, zIndex: 1 }}
-      >
+      <View style={{ width, height, zIndex: 1, backgroundColor: "#d2767b" }}>
         {loading ? (
           <View style={[styles.container, styles.horizontal]}>
-            <ActivityIndicator size={100} color="#00ff00" />
+            <ActivityIndicator size={100} color="#d2767b" />
           </View>
         ) : (
           <Block safe flex middle>
             <Block style={styles.registerContainer}>
               <Text
                 size={20}
-                color={argonTheme.COLORS.ACTIVE}
+                style={{ alignSelf: "center", color: "#ffc8c8" }}
                 bold
-                style={{ alignSelf: "center", marginTop: 10 }}
               >
-                Patient previous reocords
+                Patient's previous records
               </Text>
 
               {loading ? (
                 <View style={[styles.container, styles.horizontal]}>
-                  <ActivityIndicator size={100} color="#00ff00" />
+                  <ActivityIndicator size={100} color="#d2767b" />
                 </View>
               ) : (
                 <ScrollView>
-                  {/* <Block flex space="between" style={styles.cardDescription}>
-                  {entities.map((elt) => (
-                    <Text>{elt.email}</Text>
-                  ))}
-                </Block> */}
-
                   <TouchableWithoutFeedback>
                     <Block flex space="between" style={styles.cardDescription}>
                       {entities.map((elt) => (
@@ -109,61 +99,46 @@ const History = ({ navigation }) => {
                             borderColor: "#5e60ce",
                           }}
                         >
-                          <Text size={20} style={styles.cardTitle}>
+                          <Text size={20} style={styles.cardTitle} bold>
                             Date:{" "}
-                            <Text
-                              size={20}
-                              color={argonTheme.COLORS.ACTIVE}
-                              bold
-                            >
+                            <Text size={20} style={styles.cardTitle} bold>
                               {new Date(
                                 elt.createdAt.seconds * 1000
-                              ).toLocaleDateString("en-AU") +
+                              ).getDate() +
+                                "/" +
+                                new Date(
+                                  elt.createdAt.seconds * 1000
+                                ).getMonth() +
+                                "/" +
+                                new Date(
+                                  elt.createdAt.seconds * 1000
+                                ).getFullYear() +
                                 " at " +
                                 new Date(
                                   elt.createdAt.seconds * 1000
                                 ).toLocaleTimeString()}
                             </Text>
                           </Text>
-                          <Text size={20} style={styles.cardTitle}>
+                          <Text size={20} style={styles.cardTitle} bold>
                             SPO2 :{" "}
-                            <Text
-                              size={18}
-                              color={argonTheme.COLORS.ACTIVE}
-                              bold
-                            >
+                            <Text size={20} style={styles.cardTitle} bold>
                               {elt.spo2}
                             </Text>
                           </Text>
-                          <Text size={20} style={styles.cardTitle}>
+                          <Text size={20} style={styles.cardTitle} bold>
                             Heart Rate :{" "}
-                            <Text
-                              size={20}
-                              color={argonTheme.COLORS.ACTIVE}
-                              bold
-                            >
+                            <Text size={20} style={styles.cardTitle} bold>
                               {elt.heartRate}
                             </Text>
                           </Text>
-                          <Text size={20} style={styles.cardTitle}>
+                          <Text size={20} style={styles.cardTitle} bold>
                             Temperature :{" "}
-                            <Text
-                              size={20}
-                              color={argonTheme.COLORS.ACTIVE}
-                              bold
-                            >
+                            <Text size={20} style={styles.cardTitle} bold>
                               {elt.temperature}
                             </Text>
                           </Text>
                         </Block>
                       ))}
-
-                      {/* <Text size={24} style={styles.cardTitle}>
-            Average BPM :{" "}
-            <Text size={20} color={argonTheme.COLORS.ACTIVE} bold>
-              {avgBpm}
-            </Text>
-          </Text> */}
                     </Block>
                   </TouchableWithoutFeedback>
                 </ScrollView>
@@ -171,7 +146,7 @@ const History = ({ navigation }) => {
             </Block>
           </Block>
         )}
-      </ImageBackground>
+      </View>
     </Block>
   );
 };
@@ -206,15 +181,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexWrap: "wrap",
     paddingBottom: 6,
+    color: "#c7adae",
   },
   cardDescription: {
     padding: theme.SIZES.BASE / 2,
   },
 
-  createButton: {
-    width: width * 0.5,
-    marginTop: 25,
-  },
   container: {
     flex: 1,
     justifyContent: "center",

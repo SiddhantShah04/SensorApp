@@ -101,7 +101,7 @@ class DrawerItem extends React.Component {
         .then(() => {
           // Sign-out successful.
           AsyncStorage.removeItem("loginData");
-          navigation.navigate("Onboarding");
+          navigation.navigate("Login");
         })
         .catch((error) => {
           // An error happened.

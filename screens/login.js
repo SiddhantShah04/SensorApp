@@ -134,7 +134,7 @@ const Login = ({ navigation }) => {
         > */}
         {loading ? (
           <View style={[styles.container, styles.horizontal]}>
-            <ActivityIndicator size={100} color="#00ff00" />
+            <ActivityIndicator size={100} color="#d2767b" />
           </View>
         ) : (
           <Block safe middle>
@@ -151,11 +151,11 @@ const Login = ({ navigation }) => {
                 </Text>
                 {/* <Block row style={{ marginTop: theme.SIZES.BASE }}></Block> */}
               </Block>
-              <Block flex={0.4}>
-                <Block flex={0.2} middle></Block>
-                <Block flex center>
+              <Block>
+                <Block middle></Block>
+                <Block center>
                   <KeyboardAvoidingView
-                    style={{ flex: 2 }}
+                    style={{ flex: 2, marginTop: 6 }}
                     behavior="padding"
                     enabled
                   >
@@ -249,24 +249,11 @@ const styles = StyleSheet.create({
     height: 115,
   },
   logo: {
-    height: 420,
-    zIndex: 2,
-    position: "relative",
-    marginTop: "-114%",
+    position: "absolute",
+    height: height * 0.5,
+    bottom: 1,
   },
-  // socialButtons: {
-  //   width: 120,
-  //   height: 40,
-  //   backgroundColor: "#fff",
-  //   shadowColor: argonTheme.COLORS.BLACK,
-  //   shadowOffset: {
-  //     width: 0,
-  //     height: 4,
-  //   },
-  //   shadowRadius: 8,
-  //   shadowOpacity: 0.1,
-  //   elevation: 1,
-  // },
+
   socialTextButtons: {
     color: argonTheme.COLORS.PRIMARY,
     fontWeight: "800",
