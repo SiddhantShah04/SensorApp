@@ -29,10 +29,14 @@ var config = {
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
+
+// History
 const History = ({ navigation }) => {
+  // React Hooks.used to store data inside of variable.
   const [loading, setLoading] = useState(false);
   const [entities, setEntities] = useState([]);
 
+  // getting data from firebase console
   const getData = async () => {
     setLoading(true);
     const entityRef = firebase
@@ -40,6 +44,7 @@ const History = ({ navigation }) => {
       .collection("userData")
       .orderBy("createdAt", "desc");
 
+    // getiing user logged in details.
     const email = await AsyncStorage.getItem("loginData");
     entityRef.where("email", "==", email).onSnapshot(
       (querySnapshot) => {
@@ -59,6 +64,7 @@ const History = ({ navigation }) => {
     setLoading(false);
   };
 
+  // getting user details by calling the useEffect function.
   useEffect(() => {
     getData();
   }, []);

@@ -36,6 +36,7 @@ const Register = ({ navigation }) => {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // sending email and password to firebase
   const firebaseRegister = () => {
     setLoading(true);
     firebase

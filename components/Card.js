@@ -56,7 +56,7 @@ const Card = ({ navigation }) => {
       };
       entityRef
         .add(data)
-
+        // for catching errors
         .catch((error) => {
           alert(error);
         });
@@ -68,6 +68,7 @@ const Card = ({ navigation }) => {
     }
   };
 
+  // navigating to the history page.
   const getUserHistroy = () => {
     navigation.navigate("history");
   };

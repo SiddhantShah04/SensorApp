@@ -39,6 +39,7 @@ if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
 const Login = ({ navigation }) => {
+  // page Font.
   let [fontsLoaded] = useFonts({
     Orbitron_400Regular,
     Orbitron_500Medium,
@@ -52,8 +53,8 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Checking if user already logged in or not.
   const loginLocalStorage = async (userName) => {
-    console.log(userName);
     try {
       await AsyncStorage.setItem("loginData", userName);
     } catch (error) {
@@ -66,6 +67,7 @@ const Login = ({ navigation }) => {
     // Add Firebase auth
 
     setLoading(true);
+    // trying to get email and password and logged in to fireabse console
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -85,6 +87,8 @@ const Login = ({ navigation }) => {
         alert(errorMessage);
       });
   };
+
+  // Logged in with gmail id.
   const loginWithApp = (txt) => {
     var provider = "";
 
@@ -125,6 +129,9 @@ const Login = ({ navigation }) => {
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
+    {
+      /* page desing code */
+    }
     return (
       <Block flex middle>
         <StatusBar hidden />
@@ -234,6 +241,7 @@ const Login = ({ navigation }) => {
   }
 };
 
+// Page style sheet
 const styles = StyleSheet.create({
   registerContainer: {
     width: width,
